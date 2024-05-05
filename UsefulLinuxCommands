@@ -8,6 +8,11 @@ ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep): Lists al
 awk 'NR==1{print "Before Kill:"} NR>1 && NR<=NF{print} NR==NF+2{print "After Kill:"} NR>NF+2{print}': Adds headings and separates the output into "Before Kill" and "After Kill" sections.
 
 
+Here's a descriptive name for the entire command:
+
+"Manage and monitor vmstat logging process for appname_log_May_05_211.log"
+
+This name captures the essence of what the command does: it manages and monitors the vmstat logging process for a specific log file named "appname_log_May_05_211.log". It checks for existing processes, terminates them if necessary, and then provides a before-and-after comparison of the process status.
 ------------------------------------------------------------------------
 alternate to 
 
@@ -18,4 +23,25 @@ kill 1234
 or
 
 kill $(pgrep -f "vmstat 5 >> appname_log_May_05_211.log")
+
+--------------------------------------------------
+
+Count processes related to a specific log file
+
+ ps aux | grep "appname_testlog_May_05_211.log" | grep -v grep | wc -l
+
+This command performs the following actions:
+
+ps aux: This command lists all running processes along with detailed information about each process.
+grep "appname_testlog_May_05_211.log": This filters the output of ps aux to only include lines that contain the string "appname_testlog_May_05_211.log". This typically filters for processes that are related to handling or accessing a specific log file named "appname_testlog_May_05_211.log".
+grep -v grep: This further filters the output to exclude any lines that contain the string "grep", which is used for filtering processes. This step is necessary to avoid including the grep command itself in the count.
+wc -l: This command counts the number of lines of input it receives.
+So, the entire command counts the number of running processes that are associated with handling or accessing the log file "appname_testlog_May_05_211.log".
+
+
+
+
+
+
+
 
