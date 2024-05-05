@@ -41,6 +41,8 @@ So, the entire command counts the number of running processes that are associate
 
 -------------------check if process is there or not , if present then list the the processses------------------------------------------------------
 
+if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
+or 
 count=$(ps aux | grep -v grep | grep -c "appname_log_May_05_211.log"); if [ $count -gt 0 ]; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
 
 
