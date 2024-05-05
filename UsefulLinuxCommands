@@ -41,24 +41,40 @@ So, the entire command counts the number of running processes that are associate
 
 -------------------check if process is there or not , if present then list the the processses------------------------------------------------------
 
-if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
-
-=-------------------
-if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then
-    ps aux | grep "appname_log_May_05_211.log" | grep -v grep
-else
-    echo "No processes found with name 'appname_log_May_05_211.log'"
-fi
-
-----------------------
-
-ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep: This command checks if there are any processes associated with the log file "appname_log_May_05_211.log". The -q flag makes grep quiet, meaning it won't output anything. If processes are found, grep -v grep filters out the grep command itself.
-if ... then ... else ... fi: This is an if-else statement in Bash. If the condition (ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep) evaluates to true (i.e., processes are found), then the commands after then are executed. Otherwise, the commands after else are executed.
-ps aux | grep "appname_log_May_05_211.log" | grep -v grep: This command lists processes associated with the log file "appname_log_May_05_211.log". The first grep filters out the grep command itself.
-echo "No processes found with name 'appname_log_May_05_211.log'": If no processes are found, this command prints the message "No processes found with name 'appname_log_May_05_211.log'".
-So, in summary, the command checks if there are any processes associated with the specified log file. If there are, it lists them; otherwise, it prints a message indicating that no processes were found.
+count=$(ps aux | grep -v grep | grep -c "appname_log_May_05_211.log"); if [ $count -gt 0 ]; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
 
 
+1. `count=$(ps aux | grep -v grep | grep -c "appname_log_May_05_211.log")`: 
+   - `ps aux`: This command lists all currently running processes.
+   - `grep -v grep`: This filters out the `grep` process itself from the list of processes.
+   - `grep -c "appname_log_May_05_211.log"`: This searches for processes whose command lines contain "appname_log_May_05_211.log" and counts the number of matching lines.
+   - The `count=$(...)` captures the count of processes into the variable `count`.
+
+2. `if [ $count -gt 0 ]; then ... else ... fi`:
+   - This is a conditional statement that checks the value of the `count` variable. 
+   - If the count is greater than 0, it means there are processes running with the specified name.
+   - If the count is 0, it means no processes are running with the specified name.
+
+3. `ps aux | grep "appname_log_May_05_211.log" | grep -v grep`:
+   - If there are processes running with the specified name, this command lists them.
+   - `ps aux`: Lists all processes.
+   - `grep "appname_log_May_05_211.log"`: Filters processes whose command lines contain "appname_log_May_05_211.log".
+   - `grep -v grep`: Filters out the `grep` process itself.
+
+4. `echo "No processes found with name 'appname_log_May_05_211.log'"`:
+   - If no processes are found with the specified name, this command prints a message indicating that no processes were found.
+
+So, in summary, this command checks if there are any processes running with the name "appname_log_May_05_211.log". If there are, it lists them; otherwise, it prints a message stating that no such processes were found.
+
+
+=------kill all occurences of appname_log_May_05_211-------------
+kill $(pgrep -f "appname_log_May_05_211.log")
+
+
+pgrep -f "appname_log_May_05_211.log": This command searches for processes whose command line contains the specified pattern "appname_log_May_05_211.log". Here, -f is used to match the entire command line rather than just the process name.
+$(...): This is command substitution. It captures the output of the pgrep command and uses it as an argument to the kill command.
+kill: This command is used to send signals to processes, typically to terminate or interrupt them.
+So, in summary, the command searches for processes whose command lines contain "appname_log_May_05_211.log" and then attempts to terminate them by sending the appropriate signal. It's essentially killing any processes associated with the specified log file.
 
 
 
