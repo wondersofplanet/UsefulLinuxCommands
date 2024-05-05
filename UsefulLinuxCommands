@@ -39,6 +39,26 @@ wc -l: This command counts the number of lines of input it receives.
 So, the entire command counts the number of running processes that are associated with handling or accessing the log file "appname_testlog_May_05_211.log".
 
 
+-------------------------------------------------------------------------
+
+if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
+
+=-------------------
+if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then
+    ps aux | grep "appname_log_May_05_211.log" | grep -v grep
+else
+    echo "No processes found with name 'appname_log_May_05_211.log'"
+fi
+
+----------------------
+
+ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep: This command checks if there are any processes associated with the log file "appname_log_May_05_211.log". The -q flag makes grep quiet, meaning it won't output anything. If processes are found, grep -v grep filters out the grep command itself.
+if ... then ... else ... fi: This is an if-else statement in Bash. If the condition (ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep) evaluates to true (i.e., processes are found), then the commands after then are executed. Otherwise, the commands after else are executed.
+ps aux | grep "appname_log_May_05_211.log" | grep -v grep: This command lists processes associated with the log file "appname_log_May_05_211.log". The first grep filters out the grep command itself.
+echo "No processes found with name 'appname_log_May_05_211.log'": If no processes are found, this command prints the message "No processes found with name 'appname_log_May_05_211.log'".
+So, in summary, the command checks if there are any processes associated with the specified log file. If there are, it lists them; otherwise, it prints a message indicating that no processes were found.
+
+
 
 
 
