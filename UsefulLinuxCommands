@@ -24,7 +24,7 @@ or
 
 kill $(pgrep -f "vmstat 5 >> appname_log_May_05_211.log")
 
---------------------------------------------------
+--------------------Count processes ------------------------------
 
 Count processes related to a specific log file
 
@@ -39,7 +39,7 @@ wc -l: This command counts the number of lines of input it receives.
 So, the entire command counts the number of running processes that are associated with handling or accessing the log file "appname_testlog_May_05_211.log".
 
 
--------------------------------------------------------------------------
+-------------------check if process is there or not------------------------------------------------------
 
 if ps aux | grep -q "appname_log_May_05_211.log" | grep -v grep; then ps aux | grep "appname_log_May_05_211.log" | grep -v grep; else echo "No processes found with name 'appname_log_May_05_211.log'"; fi
 
