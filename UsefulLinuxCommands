@@ -1,0 +1,21 @@
+(ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep; ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep | awk '{print $2}' | xargs kill -9; ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep) | awk 'NR==1{print "Before Kill:"} NR>1 && NR<=NF{print} NR==NF+2{print "After Kill:"} NR>NF+2{print}'
+
+Here's what each part of the command does:
+
+(ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep;: Lists all processes related to writing to the appname_log_May_05_211.log file.
+ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep | awk '{print $2}' | xargs kill -9;: Kills all processes related to writing to the appname_log_May_05_211.log file.
+ps aux | grep "vmstat 5 >> appname_log_May_05_211.log" | grep -v grep): Lists all remaining processes related to writing to the appname_log_May_05_211.log file after killing.
+awk 'NR==1{print "Before Kill:"} NR>1 && NR<=NF{print} NR==NF+2{print "After Kill:"} NR>NF+2{print}': Adds headings and separates the output into "Before Kill" and "After Kill" sections.
+
+
+------------------------------------------------------------------------
+alternate to 
+
+ps aux | grep "vmstat 5 >> appname_log_May_05_211.log"
+
+kill 1234
+
+or
+
+kill $(pgrep -f "vmstat 5 >> appname_log_May_05_211.log")
+
